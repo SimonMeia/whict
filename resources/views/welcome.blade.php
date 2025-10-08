@@ -37,64 +37,66 @@
                     <p class="text-neutral-500">Check your GitHub commits for a specific day</p>
                 </div>
                 <x-card>
-                    @if (Auth::check())
-                        <div class="max-w-lg">
-                            <div class="grid grid-cols-2 gap-2">
-                                <x-button
-                                    severity="secondary"
-                                    type="link"
-                                    href="{{ route('commits', ['date' => now()->subDay()->toDateString()]) }}"
-                                >
-                                    Yesterday
-                                </x-button>
-                                <x-button
-                                    severity="primary"
-                                    type="link"
-                                    href="{{ route('commits', ['date' => now()->toDateString()]) }}"
-                                >
-                                    Today
-                                </x-button>
-                            </div>
-
-                            <div
-                                class="py-4 flex items-center text-sm text-gray-800 before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6">
-                                Or choose a date
-                            </div>
-
-                            <div
-                                x-data="{
-                                    selectedDate: '{{ now()->toDateString() }}',
-                                    formatDateForUrl(dateString) {
-                                        if (!dateString) return '{{ now()->toDateString() }}';
-                                        // Convert from 'MMM DD, YYYY' to 'YYYY-MM-DD'
-                                        const date = new Date(dateString);
-                                        if (isNaN(date.getTime())) return '{{ now()->toDateString() }}';
-                                        return date.getFullYear() + '-' +
-                                            String(date.getMonth() + 1).padStart(2, '0') + '-' +
-                                            String(date.getDate()).padStart(2, '0');
-                                    }
-                                }"
-                                @date-selected.window="selectedDate = formatDateForUrl($event.detail.date)"
-                                class="flex gap-2"
-                            >
-                                <div class="grow">
-                                    <x-date-picker />
+                    <div class="h-36">
+                        @if (Auth::check())
+                            <div class="max-w-lg h-full flex flex-col justify-between">
+                                <div class="grid grid-cols-2 gap-2">
+                                    <x-button
+                                        severity="secondary"
+                                        type="link"
+                                        href="{{ route('commits', ['date' => now()->subDay()->toDateString()]) }}"
+                                    >
+                                        Yesterday
+                                    </x-button>
+                                    <x-button
+                                        severity="primary"
+                                        type="link"
+                                        href="{{ route('commits', ['date' => now()->toDateString()]) }}"
+                                    >
+                                        Today
+                                    </x-button>
                                 </div>
-                                <x-button
-                                    severity="secondary"
-                                    type="link"
-                                    href="{{ route('commits') }}"
-                                    x-bind:href="'{{ route('commits') }}?date=' + selectedDate"
+
+                                <div
+                                    class="py-4 flex items-center text-sm text-gray-800 before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6">
+                                    Or choose a date
+                                </div>
+
+                                <div
+                                    x-data="{
+                                        selectedDate: '{{ now()->toDateString() }}',
+                                        formatDateForUrl(dateString) {
+                                            if (!dateString) return '{{ now()->toDateString() }}';
+                                            // Convert from 'MMM DD, YYYY' to 'YYYY-MM-DD'
+                                            const date = new Date(dateString);
+                                            if (isNaN(date.getTime())) return '{{ now()->toDateString() }}';
+                                            return date.getFullYear() + '-' +
+                                                String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                                                String(date.getDate()).padStart(2, '0');
+                                        }
+                                    }"
+                                    @date-selected.window="selectedDate = formatDateForUrl($event.detail.date)"
+                                    class="flex gap-2"
                                 >
-                                    Search
-                                </x-button>
+                                    <div class="grow">
+                                        <x-date-picker />
+                                    </div>
+                                    <x-button
+                                        severity="secondary"
+                                        type="link"
+                                        href="{{ route('commits') }}"
+                                        x-bind:href="'{{ route('commits') }}?date=' + selectedDate"
+                                    >
+                                        Search
+                                    </x-button>
+                                </div>
                             </div>
-                        </div>
-                    @else
-                        <div>
-                            <a href="{{ route('auth.redirect') }}"> Sign in with GitHub </a>
-                        </div>
-                    @endif
+                        @else
+                            <div>
+                                <a href="{{ route('auth.redirect') }}"> Sign in with GitHub </a>
+                            </div>
+                        @endif
+                    </div>
                 </x-card>
                 @if (Auth::check())
                     <div class="mt-6 text-sm text-neutral-500">
