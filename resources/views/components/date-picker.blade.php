@@ -16,6 +16,8 @@
             this.datePickerValue = this.datePickerFormatDate(selectedDate);
             this.datePickerIsSelectedDate(day);
             this.datePickerOpen = false;
+            // Emit custom event with the selected date
+            this.$dispatch('date-selected', { date: this.datePickerValue });
         },
         datePickerPreviousMonth() {
             if (this.datePickerMonth == 0) {

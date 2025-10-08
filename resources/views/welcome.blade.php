@@ -61,8 +61,22 @@
                                 Or choose a date
                             </div>
 
-
-                            <div class="flex gap-2">
+                            <div
+                                x-data="{
+                                    selectedDate: '{{ now()->toDateString() }}',
+                                    formatDateForUrl(dateString) {
+                                        if (!dateString) return '{{ now()->toDateString() }}';
+                                        // Convert from 'MMM DD, YYYY' to 'YYYY-MM-DD'
+                                        const date = new Date(dateString);
+                                        if (isNaN(date.getTime())) return '{{ now()->toDateString() }}';
+                                        return date.getFullYear() + '-' +
+                                            String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                                            String(date.getDate()).padStart(2, '0');
+                                    }
+                                }"
+                                @date-selected.window="selectedDate = formatDateForUrl($event.detail.date)"
+                                class="flex gap-2"
+                            >
                                 <div class="grow">
                                     <x-date-picker />
                                 </div>
@@ -70,6 +84,7 @@
                                     severity="secondary"
                                     type="link"
                                     href="{{ route('commits') }}"
+                                    x-bind:href="'{{ route('commits') }}?date=' + selectedDate"
                                 >
                                     Search
                                 </x-button>
