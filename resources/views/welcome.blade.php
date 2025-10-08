@@ -15,47 +15,84 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
+
 <body>
+    <div class="relative h-screen">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0">
+            <div
+                class="relative h-full w-full bg-red [&>div]:absolute [&>div]:h-full [&>div]:w-full [&>div]:bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [&>div]:[background-size:16px_16px] [&>div]:[mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]">
+                <div></div>
 
-    <main>
-        @if (Auth::check())
-            {{ Auth::user()->name }} ({{ Auth::user()->email }})
-            <br>
-            <div class="grid grid-cols-2 gap-2">
-                <x-button
-                    severity="secondary"
-                    type="link"
-                    class="col-span-4"
-                    href="{{ route('commits', ['date' => now()->subDay()->toDateString()]) }}"
-                >
-                    Yesterday
-                </x-button>
-                <x-button
-                    severity="primary"
-                    type="link"
-                    class="col-span-4"
-                    href="{{ route('commits', ['date' => now()->toDateString()]) }}"
-                >
-                    Today
-                </x-button>
             </div>
+        </div>
 
-            <hr class="my-4">
+        <!-- Hero Content -->
+        <main class="relative z-10 flex h-full flex-col items-center justify-center px-4">
+            <div class="text-center">
+                <div class="text-center mb-10">
+                    <x-text-animation>
+                        What Have I Commited Today ?
+                    </x-text-animation>
+                    <p class="text-neutral-500">Check your GitHub commits for a specific day</p>
+                </div>
+                <x-card>
+                    @if (Auth::check())
+                        <div class="max-w-lg">
+                            <div class="grid grid-cols-2 gap-2">
+                                <x-button
+                                    severity="secondary"
+                                    type="link"
+                                    href="{{ route('commits', ['date' => now()->subDay()->toDateString()]) }}"
+                                >
+                                    Yesterday
+                                </x-button>
+                                <x-button
+                                    severity="primary"
+                                    type="link"
+                                    href="{{ route('commits', ['date' => now()->toDateString()]) }}"
+                                >
+                                    Today
+                                </x-button>
+                            </div>
 
-            <div class="flex gap-2">
-                <x-date-picker />
-                <x-button
-                    severity="danger"
-                    type="link"
-                    href="{{ route('commits') }}"
-                >
-                    Search
-                </x-button>
+                            <div
+                                class="py-4 flex items-center text-sm text-gray-800 before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6">
+                                Or choose a date
+                            </div>
+
+
+                            <div class="flex gap-2">
+                                <div class="grow">
+                                    <x-date-picker />
+                                </div>
+                                <x-button
+                                    severity="secondary"
+                                    type="link"
+                                    href="{{ route('commits') }}"
+                                >
+                                    Search
+                                </x-button>
+                            </div>
+                        </div>
+                    @else
+                        <div>
+                            <a href="{{ route('auth.redirect') }}"> Sign in with GitHub </a>
+                        </div>
+                    @endif
+                </x-card>
+                @if (Auth::check())
+                    <div class="mt-6 text-sm text-neutral-500">
+                        Authenticated as <span class="font-bold">{{ Auth::user()->name }}</span>
+                        <span class="text-neutral-400">({{ Auth::user()->email }})</span>
+                    </div>
+                @endif
             </div>
-        @else
-            <a href="{{ route('auth.redirect') }}"> Sign in with GitHub </a>
-        @endif
-    </main>
+        </main>
+    </div>
+
+
+
 
 </body>
 

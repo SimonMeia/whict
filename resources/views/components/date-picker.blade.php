@@ -96,10 +96,9 @@
     datePickerCalculateDays();"
     x-cloak
 >
-    <div class="container px-4 py-2 mx-auto md:py-10">
-        <div class="mb-5 w-full">
-            <label for="datepicker" class="block mb-1 text-sm font-medium text-neutral-500">Select Date</label>
-            <div class="relative w-[17rem]">
+    <div class="container mx-auto">
+        <div class="w-full">
+            <div class="relative min-w-[17rem]">
                 <input
                     x-ref="datePickerInput"
                     type="text"
