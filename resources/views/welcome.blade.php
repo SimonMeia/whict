@@ -13,6 +13,43 @@
 
     <!-- Styles / Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Alpine.js cloak style -->
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        .loader {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: block;
+            margin: 8px auto;
+            position: relative;
+            color: #777;
+            box-sizing: border-box;
+            animation: animloader 1s linear infinite alternate;
+        }
+
+        @keyframes animloader {
+            0% {
+                box-shadow: -24px -8px, -8px 0, 8px 0, 24px 0;
+            }
+
+            33% {
+                box-shadow: -24px 0px, -8px -8px, 8px 0, 24px 0;
+            }
+
+            66% {
+                box-shadow: -24px 0px, -8px 0, 8px -8px, 24px 0;
+            }
+
+            100% {
+                box-shadow: -24px 0, -8px 0, 8px 0, 24px -8px;
+            }
+        }
+    </style>
 </head>
 
 
@@ -23,7 +60,6 @@
             <div
                 class="relative h-full w-full bg-red [&>div]:absolute [&>div]:h-full [&>div]:w-full [&>div]:bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [&>div]:[background-size:16px_16px] [&>div]:[mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]">
                 <div></div>
-
             </div>
         </div>
 
@@ -37,21 +73,52 @@
                     <p class="text-neutral-500">Check your GitHub commits for a specific day</p>
                 </div>
                 <x-card>
-                    <div class="h-36">
+                    <div
+                        class="h-36"
+                        x-data="{
+                            loading: false,
+                            selectedDate: '{{ now()->toDateString() }}',
+                            formatDateForUrl(dateString) {
+                                if (!dateString) return '{{ now()->toDateString() }}';
+                                // Convert from 'MMM DD, YYYY' to 'YYYY-MM-DD'
+                                const date = new Date(dateString);
+                                if (isNaN(date.getTime())) return '{{ now()->toDateString() }}';
+                                return date.getFullYear() + '-' +
+                                    String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                                    String(date.getDate()).padStart(2, '0');
+                            },
+                            navigateToCommits(url) {
+                                this.loading = true;
+                                window.location.href = url;
+                            }
+                        }"
+                        @date-selected.window="selectedDate = formatDateForUrl($event.detail.date)"
+                    >
                         @if (Auth::check())
-                            <div class="max-w-lg h-full flex flex-col justify-between">
+                            <!-- Loading State -->
+                            <div
+                                x-show="loading"
+                                class="h-full flex flex-col items-center justify-center"
+                                x-cloak
+                            >
+                                <span class="loader"></span>
+                                <p class="text-sm text-neutral-500">Fetching your commits...</p>
+                            </div>
+
+                            <!-- Normal State -->
+                            <div x-show="!loading" class="max-w-lg h-full flex flex-col justify-between">
                                 <div class="grid grid-cols-2 gap-2">
                                     <x-button
                                         severity="secondary"
-                                        type="link"
-                                        href="{{ route('commits', ['date' => now()->subDay()->toDateString()]) }}"
+                                        type="button"
+                                        @click="navigateToCommits('{{ route('commits', ['date' => now()->subDay()->toDateString()]) }}')"
                                     >
                                         Yesterday
                                     </x-button>
                                     <x-button
                                         severity="primary"
-                                        type="link"
-                                        href="{{ route('commits', ['date' => now()->toDateString()]) }}"
+                                        type="button"
+                                        @click="navigateToCommits('{{ route('commits', ['date' => now()->toDateString()]) }}')"
                                     >
                                         Today
                                     </x-button>
@@ -62,30 +129,14 @@
                                     Or choose a date
                                 </div>
 
-                                <div
-                                    x-data="{
-                                        selectedDate: '{{ now()->toDateString() }}',
-                                        formatDateForUrl(dateString) {
-                                            if (!dateString) return '{{ now()->toDateString() }}';
-                                            // Convert from 'MMM DD, YYYY' to 'YYYY-MM-DD'
-                                            const date = new Date(dateString);
-                                            if (isNaN(date.getTime())) return '{{ now()->toDateString() }}';
-                                            return date.getFullYear() + '-' +
-                                                String(date.getMonth() + 1).padStart(2, '0') + '-' +
-                                                String(date.getDate()).padStart(2, '0');
-                                        }
-                                    }"
-                                    @date-selected.window="selectedDate = formatDateForUrl($event.detail.date)"
-                                    class="flex gap-2"
-                                >
+                                <div class="flex gap-2">
                                     <div class="grow">
                                         <x-date-picker />
                                     </div>
                                     <x-button
                                         severity="secondary"
-                                        type="link"
-                                        href="{{ route('commits') }}"
-                                        x-bind:href="'{{ route('commits') }}?date=' + selectedDate"
+                                        type="button"
+                                        @click="navigateToCommits('{{ route('commits') }}?date=' + selectedDate)"
                                     >
                                         Search
                                     </x-button>

@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Service\CommitProcessorService;
 use App\Service\GithubService;
 use Carbon\Carbon;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class FetchCommitsController extends Controller
 {
@@ -16,13 +17,13 @@ class FetchCommitsController extends Controller
         protected CommitProcessorService $commitProcessor,
     ) {}
 
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(Request $request): View|RedirectResponse
     {
         $date = Carbon::parse($request->query('date', now()->toDateString()))->startOfDay();
 
         $user = auth()->user();
-        if (! $user) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        if (!$user) {
+            return redirect()->route('home');
         }
 
         $repos = $this->githubService->fetchUserRepos($user->github_token)
@@ -43,10 +44,12 @@ class FetchCommitsController extends Controller
         $processedCommits = $this->commitProcessor->processCommits($rawCommits);
         $statistics = $this->commitProcessor->getStatistics($processedCommits);
 
-        return response()->json([
+        $data = [
             'date' => $date->toIso8601String(),
             'commits' => $processedCommits,
             'statistics' => $statistics,
-        ]);
+        ];
+
+        return view('commits', $data);
     }
 }
