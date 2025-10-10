@@ -143,8 +143,17 @@
                                 </div>
                             </div>
                         @else
-                            <div>
-                                <a href="{{ route('auth.redirect') }}"> Sign in with GitHub </a>
+                            <div class="h-full flex flex-col items-center justify-center gap-4">
+
+                                <div>To view your commits, please sign in.</div>
+
+                                <x-button
+                                    severity="primary"
+                                    type="link"
+                                    href="{{ route('auth.redirect') }}"
+                                >
+                                    Sign in with GitHub
+                                </x-button>
                             </div>
                         @endif
                     </div>
