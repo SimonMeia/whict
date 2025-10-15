@@ -89,11 +89,13 @@
                 </div>
 
                 <!-- Commits List View -->
-                <x-ui.card x-show="viewMode === 'list'">
-                    @foreach ($commits as $commit)
-                        <x-commits.commit-list-item :commit="$commit" />
-                    @endforeach
-                </x-ui.card>
+                <div x-show="viewMode === 'list'">
+                    <x-ui.card>
+                        @foreach ($commits as $commit)
+                            <x-commits.commit-list-item :commit="$commit" />
+                        @endforeach
+                    </x-ui.card>
+                </div>
             @else
                 <!-- No Commits -->
                 <x-commits.no-commit-card :date="$date" />
