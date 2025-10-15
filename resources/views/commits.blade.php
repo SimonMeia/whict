@@ -13,9 +13,22 @@
 
     <!-- Styles / Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Alpine.js cloak style -->
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 </head>
 
-<body>
+<body x-data x-init="setTimeout(() => {
+    toast('Commits loaded successfully', {
+        type: 'success',
+        description: 'Found {{ count($commits) }} commit(s) for this date',
+        position: 'top-right'
+    });
+}, 500);">
     <div class="relative min-h-screen">
         <!-- Background Pattern -->
         <div class="absolute inset-0">
@@ -206,6 +219,9 @@
             </div>
         </main>
     </div>
+
+    <!-- Toast Notifications -->
+    <x-toast />
 </body>
 
 </html>
