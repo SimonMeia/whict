@@ -34,7 +34,7 @@
             clearInterval(gsapInterval2);
         }
     }, 5);"
-    class="invisible block pb-0.5 overflow-hidden text-3xl font-bold custom-font"
+    class="invisible block pb-0.5 overflow-hidden text-3xl font-bold"
 >
     {{ $slot }}
 </h1>
