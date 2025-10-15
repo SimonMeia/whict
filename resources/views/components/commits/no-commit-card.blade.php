@@ -1,3 +1,5 @@
+@props(['date'])
+
 <x-ui.card>
     <div class="text-center py-12">
         <svg
