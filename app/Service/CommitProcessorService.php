@@ -39,9 +39,9 @@ class CommitProcessorService
                     'username' => $commit['author']['login'] ?? null,
                     'avatar_url' => $commit['author']['avatar_url'] ?? null,
                 ],
-                'date' => Carbon::parse($commit['commit']['author']['date']),
-                'date_formatted' => Carbon::parse($commit['commit']['author']['date'])->format('H:i'),
-                'date_human' => Carbon::parse($commit['commit']['author']['date'])->diffForHumans(),
+                'date' => Carbon::parse($commit['commit']['author']['date'])->timezone(config('app.timezone')),
+                'date_formatted' => Carbon::parse($commit['commit']['author']['date'])->timezone(config('app.timezone'))->format('H:i'),
+                'date_human' => Carbon::parse($commit['commit']['author']['date'])->timezone(config('app.timezone'))->diffForHumans(),
                 'repository' => [
                     'name' => $commit['repository']['name'] ?? 'Unknown',
                     'full_name' => $commit['repository']['full_name'] ?? null,
