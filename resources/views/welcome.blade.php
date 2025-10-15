@@ -9,16 +9,14 @@
         <x-home.github-user />
     </main>
 
-    <footer>
-        <div class="max-w-4xl mx-auto px-4 py-6 text-center text-sm text-gray-500 absolute bottom-0 w-full z-20">
-            &copy; {{ date('Y') }} Whict. Created by
-            <a
-                href="https://github.com/SimonMeia"
-                target="_blank"
-                class="text-gray-600 hover:text-gray-800 transition-colors font-medium"
-            >
-                Simon
-            </a>.
-        </div>
+    <footer class="px-4 py-6 text-center text-sm text-gray-500 absolute bottom-0 w-full z-20">
+        &copy; {{ date('Y') }} Whict. Created by
+        <a
+            href="https://github.com/SimonMeia"
+            target="_blank"
+            class="text-gray-600 hover:text-gray-800 transition-colors font-medium"
+        >
+            Simon
+        </a>.
     </footer>
 </x-layout>
