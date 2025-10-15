@@ -16,6 +16,7 @@ class CommitProcessorService
     public function processCommits(Collection $commits): Collection
     {
         return $commits
+            ->unique('sha')
             ->map(fn ($commit) => [
                 'id' => $commit['sha'],
                 'short_id' => substr($commit['sha'], 0, 7),
