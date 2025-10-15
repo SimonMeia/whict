@@ -58,8 +58,6 @@
 
 
 <body>
-
-
     <div class="relative h-screen">
         <!-- Background Pattern -->
         <div class="absolute inset-0">

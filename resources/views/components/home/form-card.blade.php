@@ -25,16 +25,15 @@
         }"
         x-on:date-selected.window="selectedDate = formatDateForUrl($event.detail.date)"
     >
-        <div class="fixed top-0 right-0 bg-white p-4">
-            <x-ui.switch
-                name="includeMerges"
-                label="Include merge commits"
-                label-position="left"
-            />
-        </div>
-
-
         @if (Auth::check())
+            <div class="fixed top-0 right-0 bg-white p-4">
+                <x-ui.switch
+                    name="includeMerges"
+                    label="Include merge commits"
+                    label-position="left"
+                />
+            </div>
+
             <!-- Loading State -->
             <div
                 x-show="loading"

@@ -1,7 +1,7 @@
 <x-layout>
     <main
         class="relative z-10 px-4 py-12"
-        x-data="{ viewMode: 'list' }"
+        x-data="{ viewMode: 'card' }"
         x-init="setTimeout(() => {
             toast('Commits loaded successfully', {
                 type: 'success',
