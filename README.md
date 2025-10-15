@@ -1,61 +1,137 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# What Have I Committed Today? (WHICT)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A beautiful Laravel application to track and visualize your daily GitHub commits across all your repositories.
 
-## About Laravel
+## 🚀 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   **GitHub Authentication** - Securely sign in with your GitHub account using OAuth
+-   **Daily Commit Overview** - View all your commits for any specific date
+-   **Multi-Repository Support** - Track commits across all your GitHub repositories
+-   **Commit Statistics** - See total commits, active repositories, and hourly activity breakdown
+-   **Rich Commit Details** - View commit messages, timestamps, repository info, and verification status
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📋 Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   PHP 8.2 or higher
+-   Composer
+-   Node.js & NPM
+-   GitHub OAuth Application (for authentication)
 
-## Learning Laravel
+## 🛠️ Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. **Clone the repository**
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    ```bash
+    git clone <repository-url>
+    cd whict
+    ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. **Install PHP dependencies**
 
-## Laravel Sponsors
+    ```bash
+    composer install
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. **Install JavaScript dependencies**
 
-### Premium Partners
+    ```bash
+    npm install
+    ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+4. **Configure environment**
 
-## Contributing
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+5. **Set up GitHub OAuth**
 
-## Code of Conduct
+    Create a GitHub OAuth application at [GitHub Developer Settings](https://github.com/settings/developers)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    Add your credentials to `.env`:
 
-## Security Vulnerabilities
+    ```env
+    GITHUB_CLIENT_ID=your_client_id
+    GITHUB_CLIENT_SECRET=your_client_secret
+    GITHUB_REDIRECT_URI=http://localhost:8000/auth/callback
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+6. **Run migrations**
 
-## License
+    ```bash
+    php artisan migrate
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+7. **Run dev site**
+    ```bash
+    composer dev
+    ```
+
+Visit `http://localhost:8000` in your browser.
+
+## 🎨 Tech Stack
+
+-   **Backend:** Laravel 12
+-   **Frontend:** Alpine.js, Tailwind CSS v4
+-   **UI Components:** [Pines UI](https://devdojo.com/pines/docs/introduction)
+-   **Authentication:** Laravel Socialite (GitHub OAuth)
+-   **Testing:** Pest PHP
+-   **Code Quality:** Laravel Pint
+
+## 📁 Project Structure
+
+```
+app/
+├── Http/Controllers/
+│   └── FetchCommitsController.php    # Handles commit fetching and display
+├── Service/
+│   ├── ApiService.php                # Base API service
+│   ├── GithubService.php             # GitHub API integration
+│   └── CommitProcessorService.php    # Commit data processing
+└── Models/
+    └── User.php                      # User model with GitHub token
+
+resources/
+├── views/
+│   ├── welcome.blade.php             # Home page with date selector
+│   ├── commits.blade.php             # Commits display page
+│   └── components/                   # Reusable Blade components
+├── css/
+│   └── app.css                       # Tailwind CSS
+└── js/
+    └── app.js                        # Alpine.js bootstrap
+
+routes/
+└── web.php                           # Application routes
+```
+
+## 🔧 Development
+
+**Format code with Pint:**
+
+```bash
+vendor/bin/pint
+```
+
+**Run tests:**
+
+```bash
+php artisan test
+```
+
+## 📝 How It Works
+
+1. **Authentication:** Users sign in with their GitHub account via OAuth
+2. **Token Storage:** GitHub access tokens are securely encrypted and stored
+3. **Repository Fetching:** The app fetches all repositories pushed to on the selected date
+4. **Commit Processing:** Commits are retrieved, deduplicated, and enriched with metadata
+5. **Display:** Commits are beautifully displayed with statistics and links
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
