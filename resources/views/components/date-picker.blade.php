@@ -132,7 +132,7 @@
                     x-show="datePickerOpen"
                     x-transition
                     x-on:click.away="datePickerOpen = false"
-                    class="absolute top-0 left-0 max-w-lg p-4 mt-12 antialiased bg-white border rounded-lg shadow w-[17rem] border-neutral-200/70"
+                    class="absolute top-0 left-0 max-w-lg p-4 mt-12 antialiased bg-white border rounded-lg shadow w-[17rem] border-neutral-200/70 z-20"
                 >
                     <div class="flex justify-between items-center mb-2">
                         <div>
