@@ -14,7 +14,8 @@ class GithubService
 
     public function fetchUserRepos(string $token): Collection
     {
-        return collect($this->apiService->fetch('/user/repos', $token));
+        // Fetch all repos with pagination (100 per page is the max)
+        return collect($this->apiService->fetch('/user/repos?per_page=100', $token));
     }
 
     public function fetchUserCommits(string $token, string $authorUsername, Collection $repos, Carbon $date): Collection

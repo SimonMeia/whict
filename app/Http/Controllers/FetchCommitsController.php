@@ -31,7 +31,7 @@ class FetchCommitsController extends Controller
             ->filter(fn ($repo) => Carbon::parse($repo['pushed_at'])->greaterThanOrEqualTo($date))
             ->values();
 
-        Log::info('Fetched raw commits', ['count' => $repos->count()]);
+        Log::info('Fetched raw repos', ['count' => $repos->count()]);
 
         $rawCommits = $this->githubService->fetchUserCommits(
             $user->github_token,

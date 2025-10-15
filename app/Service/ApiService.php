@@ -34,8 +34,8 @@ class ApiService
     /**
      * Execute multiple GitHub API requests concurrently using Laravel's HTTP batch functionality.
      *
-     * @param array $requests Array of request configurations: ['key' => ['uri' => '/path', 'method' => 'GET']]
-     * @param string $token Encrypted GitHub token
+     * @param  array  $requests  Array of request configurations: ['key' => ['uri' => '/path', 'method' => 'GET']]
+     * @param  string  $token  Encrypted GitHub token
      * @return array Array of results with same keys as input
      */
     public function batchFetch(array $requests, string $token): array
