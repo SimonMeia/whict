@@ -11,12 +11,24 @@ class CommitProcessorService
      * Process raw GitHub commits data into a simplified structure
      *
      * @param  Collection  $commits  Raw commits from GitHub API
+     * @param  bool  $includeMerges  Whether to include merge commits
      * @return Collection Processed commits sorted by date descending
      */
-    public function processCommits(Collection $commits): Collection
+    public function processCommits(Collection $commits, bool $includeMerges = true): Collection
     {
         return $commits
             ->unique('sha')
+            ->when(!$includeMerges, function ($collection) {
+                return $collection->filter(function ($commit) {
+                    $message = $commit['commit']['message'] ?? '';
+                    $parents = $commit['parents'] ?? [];
+
+                    // Filter out merge commits by checking:
+                    // 1. Message starts with "Merge"
+                    // 2. Has more than one parent (merge commits have multiple parents)
+                    return !(str_starts_with($message, 'Merge') || count($parents) > 1);
+                });
+            })
             ->map(fn ($commit) => [
                 'id' => $commit['sha'],
                 'short_id' => substr($commit['sha'], 0, 7),

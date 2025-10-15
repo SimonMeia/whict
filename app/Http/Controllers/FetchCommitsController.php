@@ -20,6 +20,7 @@ class FetchCommitsController extends Controller
     public function __invoke(Request $request): View|RedirectResponse
     {
         $date = Carbon::parse($request->query('date', now()->toDateString()))->startOfDay();
+        $includeMerges = $request->boolean('include_merges', false);
 
         $user = auth()->user();
         if (!$user) {
@@ -41,7 +42,7 @@ class FetchCommitsController extends Controller
 
         Log::info('Fetched raw commits', ['count' => $rawCommits->count()]);
 
-        $processedCommits = $this->commitProcessor->processCommits($rawCommits);
+        $processedCommits = $this->commitProcessor->processCommits($rawCommits, $includeMerges);
         $statistics = $this->commitProcessor->getStatistics($processedCommits);
 
         $data = [

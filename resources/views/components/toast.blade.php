@@ -224,7 +224,7 @@
                 }
             }
         }"
-        @set-toasts-layout.window="
+        x-on:set-toasts-layout.window="
             layout=event.detail.layout;
             if(layout == 'expanded'){
                 expanded=true;
@@ -233,7 +233,7 @@
             }
             stackToasts();
         "
-        @toast-show.window="
+        x-on:toast-show.window="
             event.stopPropagation();
             if(event.detail.position){
                 position = event.detail.position;
@@ -247,8 +247,8 @@
                 html: event.detail.html
             });
         "
-        @mouseenter="toastsHovered=true;"
-        @mouseleave="toastsHovered=false"
+        x-on:mouseenter="toastsHovered=true;"
+        x-on:mouseleave="toastsHovered=false"
         x-init="window.toast = function(message, options = {}) {
             let description = '';
             let type = 'default';
@@ -337,8 +337,8 @@
                         }, 300);
                     }, 5);
                 }, 4000);"
-                @mouseover="toastHovered=true"
-                @mouseout="toastHovered=false"
+                x-on:mouseover="toastHovered=true"
+                x-on:mouseout="toastHovered=false"
                 class="absolute w-full duration-300 ease-out select-none sm:max-w-xs"
                 :class="{ 'toast-no-description': !toast.description }"
             >
@@ -423,10 +423,15 @@
                         <div x-html="toast.html"></div>
                     </template>
                     <span
-                        @click="burnToast(toast.id)"
+                        x-on:click="burnToast(toast.id)"
                         class="absolute right-0 p-1.5 mr-2.5 text-gray-400 duration-100 ease-in-out rounded-full opacity-0 cursor-pointer hover:bg-gray-50 hover:text-gray-500"
-                        :class="{ 'top-1/2 -translate-y-1/2': !toast.description && !toast.html, 'top-0 mt-2.5': (toast
-                                .description || toast.html), 'opacity-100': toastHovered, 'opacity-0': !toastHovered }"
+                        :class="{
+                            'top-1/2 -translate-y-1/2': !toast.description && !toast.html,
+                            'top-0 mt-2.5': (toast
+                                .description || toast.html),
+                            'opacity-100': toastHovered,
+                            'opacity-0': !toastHovered
+                        }"
                     >
                         <svg
                             class="w-3 h-3"

@@ -78,6 +78,7 @@
                         x-data="{
                             loading: false,
                             selectedDate: '{{ now()->toDateString() }}',
+                            includeMerges: false,
                             formatDateForUrl(dateString) {
                                 if (!dateString) return '{{ now()->toDateString() }}';
                                 // Convert from 'MMM DD, YYYY' to 'YYYY-MM-DD'
@@ -87,13 +88,26 @@
                                     String(date.getMonth() + 1).padStart(2, '0') + '-' +
                                     String(date.getDate()).padStart(2, '0');
                             },
+                            buildUrl(baseUrl) {
+                                const separator = baseUrl.includes('?') ? '&' : '?';
+                                return baseUrl + (this.includeMerges ? separator + 'include_merges=1' : '');
+                            },
                             navigateToCommits(url) {
                                 this.loading = true;
-                                window.location.href = url;
+                                window.location.href = this.buildUrl(url);
                             }
                         }"
-                        @date-selected.window="selectedDate = formatDateForUrl($event.detail.date)"
+                        x-on:date-selected.window="selectedDate = formatDateForUrl($event.detail.date)"
                     >
+                        <div class="fixed top-0 right-0 bg-white p-4">
+                            <x-switch
+                                name="includeMerges"
+                                label="Include merge commits"
+                                label-position="left"
+                            />
+                        </div>
+
+
                         @if (Auth::check())
                             <!-- Loading State -->
                             <div
@@ -111,14 +125,14 @@
                                     <x-button
                                         severity="secondary"
                                         type="button"
-                                        @click="navigateToCommits('{{ route('commits', ['date' => now()->subDay()->toDateString()]) }}')"
+                                        x-on:click="navigateToCommits('{{ route('commits', ['date' => now()->subDay()->toDateString()]) }}')"
                                     >
                                         Yesterday
                                     </x-button>
                                     <x-button
                                         severity="primary"
                                         type="button"
-                                        @click="navigateToCommits('{{ route('commits', ['date' => now()->toDateString()]) }}')"
+                                        x-on:click="navigateToCommits('{{ route('commits', ['date' => now()->toDateString()]) }}')"
                                     >
                                         Today
                                     </x-button>
@@ -136,7 +150,7 @@
                                     <x-button
                                         severity="secondary"
                                         type="button"
-                                        @click="navigateToCommits('{{ route('commits') }}?date=' + selectedDate)"
+                                        x-on:click="navigateToCommits('{{ route('commits') }}?date=' + selectedDate)"
                                     >
                                         Search
                                     </x-button>
@@ -144,9 +158,7 @@
                             </div>
                         @else
                             <div class="h-full flex flex-col items-center justify-center gap-4">
-
                                 <div>To view your commits, please sign in.</div>
-
                                 <x-button
                                     severity="primary"
                                     type="link"
@@ -167,9 +179,6 @@
             </div>
         </main>
     </div>
-
-
-
 
 </body>
 

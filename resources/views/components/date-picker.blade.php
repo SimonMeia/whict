@@ -104,14 +104,14 @@
                 <input
                     x-ref="datePickerInput"
                     type="text"
-                    @click="datePickerOpen=!datePickerOpen"
+                    x-on:click="datePickerOpen=!datePickerOpen"
                     x-model="datePickerValue"
                     x-on:keydown.escape="datePickerOpen=false"
                     class="flex px-3 py-2 w-full h-10 text-sm bg-white rounded-md border text-neutral-600 border-neutral-300 ring-offset-background placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50"
                     placeholder="Select date"
                     readonly
                 />
-                <div @click="datePickerOpen=!datePickerOpen; if(datePickerOpen){ $refs.datePickerInput.focus() }"
+                <div x-on:click="datePickerOpen=!datePickerOpen; if(datePickerOpen){ $refs.datePickerInput.focus() }"
                     class="absolute top-0 right-0 px-3 py-2 cursor-pointer text-neutral-400 hover:text-neutral-500"
                 >
                     <svg
@@ -131,7 +131,7 @@
                 <div
                     x-show="datePickerOpen"
                     x-transition
-                    @click.away="datePickerOpen = false"
+                    x-on:click.away="datePickerOpen = false"
                     class="absolute top-0 left-0 max-w-lg p-4 mt-12 antialiased bg-white border rounded-lg shadow w-[17rem] border-neutral-200/70"
                 >
                     <div class="flex justify-between items-center mb-2">
@@ -142,7 +142,7 @@
                         </div>
                         <div>
                             <button
-                                @click="datePickerPreviousMonth()"
+                                x-on:click="datePickerPreviousMonth()"
                                 type="button"
                                 class="inline-flex p-1 rounded-full transition duration-100 ease-in-out cursor-pointer focus:outline-none focus:shadow-outline hover:bg-gray-100"
                             >
@@ -161,7 +161,7 @@
                                 </svg>
                             </button>
                             <button
-                                @click="datePickerNextMonth()"
+                                x-on:click="datePickerNextMonth()"
                                 type="button"
                                 class="inline-flex p-1 rounded-full transition duration-100 ease-in-out cursor-pointer focus:outline-none focus:shadow-outline hover:bg-gray-100"
                             >
@@ -196,7 +196,7 @@
                             <div class="px-0.5 mb-1 aspect-square">
                                 <div
                                     x-text="day"
-                                    @click="datePickerDayClicked(day)"
+                                    x-on:click="datePickerDayClicked(day)"
                                     :class="{
                                         'bg-neutral-200': datePickerIsToday(day) == true,
                                         'text-gray-600 hover:bg-neutral-200': datePickerIsToday(day) == false &&
