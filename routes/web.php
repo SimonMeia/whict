@@ -21,7 +21,7 @@ Route::get('/auth/redirect', action: function () {
 
 Route::get('/auth/callback', function () {
     $githubUser = Socialite::driver('github')->user();
-    Log::info('GitHub User: '.json_encode($githubUser, JSON_PRETTY_PRINT));
+    Log::info('GitHub User: ' . json_encode($githubUser, JSON_PRETTY_PRINT));
 
     $user = User::updateOrCreate(
         ['github_id' => $githubUser->id],
@@ -38,3 +38,12 @@ Route::get('/auth/callback', function () {
 
     return redirect()->route('home');
 })->name('auth.callback');
+
+Route::post('/logout', function () {
+    Auth::logout();
+
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+
+    return redirect()->route('home');
+})->name('logout');
