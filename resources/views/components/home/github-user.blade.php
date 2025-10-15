@@ -1,10 +1,12 @@
  @if (Auth::check())
-     <div class="mt-6 flex items-center justify-center gap-2 text-sm text-neutral-500">
-         <span>Authenticated as</span>
-         <x-ui.tooltip text="{{ Auth::user()->email }}" position="top">
-             <span class="font-bold">{{ Auth::user()->name }}</span>
-         </x-ui.tooltip>
-         <span class="text-neutral-300">•</span>
+     <div class="mt-6 flex items-center justify-center gap-2 text-sm text-neutral-500 flex-wrap">
+         <div class="text-center">
+             <span>Authenticated as</span>
+             <x-ui.tooltip text="{{ Auth::user()->email }}" position="top">
+                 <span class="font-bold">{{ Auth::user()->name }}</span>
+             </x-ui.tooltip>
+         </div>
+         <span class="text-neutral-300 hidden sm:inline">•</span>
          <form
              method="POST"
              action="{{ route('logout') }}"

@@ -1,6 +1,6 @@
 <x-ui.card>
     <div
-        class="h-36"
+        class="sm:h-36"
         x-data="{
             loading: false,
             selectedDate: '{{ now()->toDateString() }}',
@@ -47,7 +47,7 @@
 
             <!-- Normal State -->
             <div x-show="!loading" class="max-w-lg h-full flex flex-col justify-between">
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid sm:grid-cols-2 gap-2">
                     <x-ui.button
                         severity="secondary"
                         type="button"
@@ -65,11 +65,11 @@
                 </div>
 
                 <div
-                    class="py-4 flex items-center text-sm text-gray-500 before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6">
+                    class="py-8 sm:py-4 flex items-center text-sm text-gray-500 before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6">
                     Or choose a date
                 </div>
 
-                <div class="flex gap-2">
+                <div class="flex gap-2 flex-col sm:flex-row">
                     <div class="grow">
                         <x-ui.date-picker />
                     </div>

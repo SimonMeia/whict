@@ -102,7 +102,7 @@
 >
     <div class="container mx-auto">
         <div class="w-full">
-            <div class="relative min-w-[17rem]">
+            <div class="relative">
                 <input
                     x-ref="datePickerInput"
                     type="text"
