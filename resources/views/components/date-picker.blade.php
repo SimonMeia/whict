@@ -9,7 +9,7 @@
         datePickerDaysInMonth: [],
         datePickerBlankDaysInMonth: [],
         datePickerMonthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        datePickerDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        datePickerDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         datePickerDayClicked(day) {
             let selectedDate = new Date(this.datePickerYear, this.datePickerMonth, day);
             this.datePickerDay = day;
@@ -49,6 +49,8 @@
             let daysInMonth = new Date(this.datePickerYear, this.datePickerMonth + 1, 0).getDate();
             // find where to start calendar day of week
             let dayOfWeek = new Date(this.datePickerYear, this.datePickerMonth).getDay();
+            // Adjust so Monday is 0, Sunday is 6
+            dayOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
             let blankdaysArray = [];
             for (var i = 1; i <= dayOfWeek; i++) {
                 blankdaysArray.push(i);
